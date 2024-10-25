@@ -1,23 +1,47 @@
-import type { Metadata } from 'next';
-import localFont from 'next/font/local';
-import './globals.css';
+// import type { Metadata } from 'next';
+// import localFont from 'next/font/local';
+// import './globals.css';
+// import Navbar from '@/components/navbar/Navbar';
+// import Providers from './Providers';
+// import { ClerkProvider } from '@clerk/nextjs';
+// import { Inter } from 'next/font/google';
+// const inter = Inter({ subsets: ['latin'] });
+// export const metadata: Metadata = {
+//   title: 'TravelNest',
+//   description:
+//     'TravelNest offers easy hotel and resort bookings. Explore a wide range of accommodations to suit your needs, from budget hotels to luxury resorts.',
+// };
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900',
-});
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900',
-});
+// export default function RootLayout({
+//   children,
+// }: Readonly<{
+//   children: React.ReactNode;
+// }>) {
+//   return (
+//     <ClerkProvider>
+//       <html lang="en" suppressHydrationWarning>
+//         <body className={inter.className}>
+//           <Providers>
+//             <Navbar />
+//             <main className="container py-10">{children}</main>
+//           </Providers>
+//         </body>
+//       </html>
+//     </ClerkProvider>
+//   );
+// }
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import Navbar from '@/components/navbar/Navbar';
+import Providers from './Providers';
+import { ClerkProvider } from '@clerk/nextjs';
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'TravelNest',
   description:
     'TravelNest offers easy hotel and resort bookings. Explore a wide range of accommodations to suit your needs, from budget hotels to luxury resorts.',
-    
 };
 
 export default function RootLayout({
@@ -26,12 +50,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body className={inter.className}>
+          <Providers>
+            <Navbar />
+            <main className="container py-10">{children}</main>
+          </Providers>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
