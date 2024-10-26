@@ -1,12 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use server';
-import db from './db';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { auth, clerkClient, currentUser } from '@clerk/nextjs/server';
 // import { revalidatePath } from 'next/cache';
+import db from './db';
+import { auth, clerkClient, currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
-import { profileSchema, validateWithZodSchema, imageSchema } from './schema';
+import {
+  profileSchema,
+  validateWithZodSchema,
+  imageSchema,
+  propertySchema,
+} from './schema';
 import { revalidatePath } from 'next/cache';
 import { uploadImage } from './supabase';
 const renderError = (error: unknown): { message: string } => {
@@ -121,4 +125,20 @@ export const updateProfileImageAction = async (
   } catch (error) {
     return renderError(error);
   }
+};
+
+//Property
+export const createPropertyAction = async (
+  prevState: any,
+  formData: FormData
+): Promise<{ message: string }> => {
+  const user = await getAuthUser();
+  try {
+    const rawData = Object.fromEntries(formData);
+    const validatedFields = validateWithZodSchema(propertySchema, rawData);
+    return { message: 'Property created successfully' };
+  } catch (error) {
+    return renderError(error);
+  }
+  redirect('/');
 };
